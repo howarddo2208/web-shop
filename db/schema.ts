@@ -1,27 +1,23 @@
-import { InferModel } from "drizzle-orm";
 import {
-  pgTable,
+  real,
   serial,
   text,
   timestamp,
   uniqueIndex,
-} from "drizzle-orm/pg-core";
+  varchar,
+} from "drizzle-orm/mysql-core";
+import { mysqlTable } from "drizzle-orm/mysql-core";
 
-export const UsersTable = pgTable(
-  "users",
+export const ProductsTable = mysqlTable(
+  "products",
   {
     id: serial("id").primaryKey(),
-    name: text("name").notNull(),
-    email: text("email").notNull(),
-    image: text("image").notNull(),
-    createdAt: timestamp("createdAt").defaultNow().notNull(),
+    name: varchar("name", { length: 50 }).notNull(),
+    description: text("description"),
+    defaultPrice: real("default_price").notNull(),
+    currentPrice: real("current_price").notNull(),
   },
-  (users) => {
-    return {
-      uniqueIdx: uniqueIndex("unique_idx").on(users.email),
-    };
-  }
+  (products) => ({
+    nameIndex: uniqueIndex("name_idx").on(products.name),
+  })
 );
-
-export type User = InferModel<typeof UsersTable>;
-export type NewUser = InferModel<typeof UsersTable, "insert">;

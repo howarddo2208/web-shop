@@ -4,6 +4,9 @@ dependencies:
   '@hookform/resolvers':
     specifier: ^3.1.0
     version: 3.1.0(react-hook-form@7.44.0)
+  '@planetscale/database':
+    specifier: ^1.7.0
+    version: 1.7.0
   '@radix-ui/react-accordion':
     specifier: ^1.1.2
     version: 1.1.2(@types/react-dom@18.2.3)(@types/react@18.2.5)(react-dom@18.2.0)(react@18.2.0)
@@ -42,7 +45,7 @@ dependencies:
     version: 1.2.1
   drizzle-orm:
     specifier: ^0.26.1
-    version: 0.26.1(postgres@3.3.4)
+    version: 0.26.1(@planetscale/database@1.7.0)
   eslint:
     specifier: 8.39.0
     version: 8.39.0
@@ -58,9 +61,6 @@ dependencies:
   postcss:
     specifier: 8.4.23
     version: 8.4.23
-  postgres:
-    specifier: ^3.3.4
-    version: 3.3.4
   react:
     specifier: 18.2.0
     version: 18.2.0
@@ -87,6 +87,9 @@ dependencies:
     version: 3.21.4
 
 devDependencies:
+  dotenv:
+    specifier: ^16.0.3
+    version: 16.0.3
   drizzle-kit:
     specifier: ^0.18.1
     version: 0.18.1
@@ -365,6 +368,11 @@ packages:
       open: 9.1.0
       picocolors: 1.0.0
       tslib: 2.5.0
+    dev: false
+
+  /@planetscale/database@1.7.0:
+    resolution: {integrity: sha512-lWR6biXChUyQnxsT4RT1CIeR3ZJvwTQXiQ+158MnY3VjLwjHEGakDzdH9kwUGPk6CHvu6UeqRXp1DgUOVHJFTw==}
+    engines: {node: '>=16'}
     dev: false
 
   /@radix-ui/number@1.0.1:
@@ -1575,6 +1583,11 @@ packages:
       esutils: 2.0.3
     dev: false
 
+  /dotenv@16.0.3:
+    resolution: {integrity: sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==}
+    engines: {node: '>=12'}
+    dev: true
+
   /dreamopt@0.8.0:
     resolution: {integrity: sha512-vyJTp8+mC+G+5dfgsY+r3ckxlz+QMX40VjPQsZc5gxVAxLmi64TBoVkP54A/pRAXMXsbu2GMMBrZPxNv23waMg==}
     engines: {node: '>=0.4.0'}
@@ -1600,7 +1613,7 @@ packages:
       - supports-color
     dev: true
 
-  /drizzle-orm@0.26.1(postgres@3.3.4):
+  /drizzle-orm@0.26.1(@planetscale/database@1.7.0):
     resolution: {integrity: sha512-PgHPBJ4BUi/xWEjBbaYo4eiVC7hIwPtSEAVO3QuGMzLV+YwD2jPyV2Y7nvP1jHZlA4IV9wLmkcpicBO/255XFg==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
@@ -1659,7 +1672,7 @@ packages:
       sqlite3:
         optional: true
     dependencies:
-      postgres: 3.3.4
+      '@planetscale/database': 1.7.0
     dev: false
 
   /electron-to-chromium@1.4.384:
@@ -3430,10 +3443,6 @@ packages:
       nanoid: 3.3.6
       picocolors: 1.0.0
       source-map-js: 1.0.2
-    dev: false
-
-  /postgres@3.3.4:
-    resolution: {integrity: sha512-XVu0+d/Y56pl2lSaf0c7V19AhAEfpVrhID1IENWN8nf0xch6hFq6dAov5dtUX6ZD46wfr1TxvLhxLtV8WnNsOg==}
     dev: false
 
   /prelude-ls@1.2.1:

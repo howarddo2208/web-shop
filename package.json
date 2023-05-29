@@ -7,10 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "generate": "drizzle-kit generate:pg"
+    "db:push": "pnpm drizzle-kit push:mysql"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.1.0",
+    "@planetscale/database": "^1.7.0",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-menubar": "^1.0.3",
@@ -29,7 +30,6 @@
     "lucide-react": "^0.221.0",
     "next": "13.4.0",
     "postcss": "8.4.23",
-    "postgres": "^3.3.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.44.0",
@@ -40,6 +40,7 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
+    "dotenv": "^16.0.3",
     "drizzle-kit": "^0.18.1"
   }
 }
