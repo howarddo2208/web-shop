@@ -9,7 +9,7 @@ const server = z.object({
 });
 
 const client = z.object({
-  NEXT_PUBLIC_APP_URL: z.string().min(1),
+  // NEXT_PUBLIC_APP_URL: z.string().min(1),
 });
 
 /**
@@ -20,7 +20,7 @@ const client = z.object({
  */
 const processEnv = {
   NODE_ENV: process.env.NODE_ENV,
-  NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
+  // NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
   CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY,
   DB_HOST: process.env.DB_HOST,
   DB_USERNAME: process.env.DB_USERNAME,
