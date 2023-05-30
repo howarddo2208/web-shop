@@ -1,6 +1,5 @@
-import { relations } from "drizzle-orm";
+import { InferModel, relations } from "drizzle-orm";
 import {
-  foreignKey,
   int,
   mysqlEnum,
   real,
@@ -11,20 +10,23 @@ import {
 } from "drizzle-orm/mysql-core";
 import { mysqlTable } from "drizzle-orm/mysql-core";
 
-export const UsersTable = mysqlTable("users", {
-  id: serial("id").primaryKey(),
-  name: varchar("name", { length: 50 }).notNull(),
-  email: text("email").notNull(),
-  avatar: text("avatar"),
-  role: mysqlEnum("role", ["ADMIN", "USER"]).notNull().default("USER"),
-});
+export const UsersTable = mysqlTable(
+  "users",
+  {
+    id: serial("id").primaryKey(),
+    name: varchar("name", { length: 50 }).notNull(),
+    email: text("email").notNull(),
+    avatar: text("avatar"),
+    role: mysqlEnum("role", ["ADMIN", "USER"]).notNull().default("USER"),
+  },
+  (users) => ({
+    emailIndex: uniqueIndex("email_idx").on(users.email),
+  })
+);
 
 export const UsersRelations = relations(UsersTable, ({ one, many }) => ({
   orders: many(OrdersTable),
-  cart: one(CartsTable, {
-    fields: [UsersTable.id],
-    references: [CartsTable.userId],
-  }),
+  cartItems: many(CartItemsTable),
 }));
 
 export const ProductsTable = mysqlTable(
@@ -41,24 +43,10 @@ export const ProductsTable = mysqlTable(
   })
 );
 
-export const CartsTable = mysqlTable("carts", {
-  id: serial("id").primaryKey(),
-  userId: int("user_id"),
-  total: real("total").notNull().default(0),
-});
-
-export const CartsRelations = relations(CartsTable, ({ one, many }) => ({
-  user: one(UsersTable, {
-    fields: [CartsTable.userId],
-    references: [UsersTable.id],
-  }),
-  cartItems: many(CartItemsTable),
-}));
-
 export const CartItemsTable = mysqlTable("cart_items", {
   id: serial("id").primaryKey(),
   productId: int("product_id"),
-  cartId: int("cart_id"),
+  userId: int("user_id"),
   quantity: int("quantity").notNull(),
 });
 
@@ -67,9 +55,9 @@ export const CartItemsRelations = relations(CartItemsTable, ({ one }) => ({
     fields: [CartItemsTable.productId],
     references: [ProductsTable.id],
   }),
-  cart: one(CartsTable, {
-    fields: [CartItemsTable.cartId],
-    references: [CartsTable.id],
+  user: one(UsersTable, {
+    fields: [CartItemsTable.userId],
+    references: [UsersTable.id],
   }),
 }));
 
@@ -104,3 +92,10 @@ export const OrderItemsRelations = relations(OrderItemsTable, ({ one }) => ({
     references: [OrdersTable.id],
   }),
 }));
+
+// DB types
+export type User = InferModel<typeof UsersTable, "select">;
+export type NewUser = InferModel<typeof UsersTable, "insert">;
+
+export type Product = InferModel<typeof ProductsTable, "select">;
+export type NewProduct = InferModel<typeof ProductsTable, "insert">;
