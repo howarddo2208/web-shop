@@ -1,12 +1,3 @@
-export interface Product {
-  id: string;
-  name: string;
-  defaultPrice: number;
-  image: string;
-  currentPrice: number;
-  stock: number;
-}
-
 export type SiteConfig = {
   name: string;
   description: string;

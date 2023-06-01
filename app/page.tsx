@@ -1,27 +1,19 @@
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { products } from "@/data/products";
 import { ProductCard } from "@/components/product-card";
 import { seed } from "@/db/seed";
+import { db } from "@/db/drizzle";
+import { ProductsTable } from "@/db/schema";
+import { ProductList } from "@/components/product-list";
 
-export default function Home() {
+export default async function Home() {
   // seed()
+  const products = await db.select().from(ProductsTable).execute();
+  console.log("products", products);
   return (
     <>
-      <ScrollArea>
-        <div className="flex space-x-4 pb-4">
-          {products.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              className="w-[250px]"
-              aspectRatio="portrait"
-              width={250}
-              height={330}
-            />
-          ))}
-        </div>
-        <ScrollBar orientation="horizontal" />
-      </ScrollArea>
+      <div className="mt-4">
+        <ProductList products={products} />
+      </div>
     </>
   );
 }

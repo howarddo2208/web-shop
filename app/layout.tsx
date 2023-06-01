@@ -1,11 +1,17 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
-import Link from 'next/link'
+import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { MainNav } from "@/components/main-nav";
 import { homeConfig } from "@/config/home";
 import { cn } from "@/lib/utils";
 import { SiteFooter } from "@/components/site-footer";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+import { Icons } from "@/components/icons";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,7 +32,23 @@ export default function RootLayout({
           <header className="container z-40 bg-background">
             <div className="flex h-20 items-center justify-between py-6">
               <MainNav items={homeConfig.mainNav} />
-              <nav>
+              <nav className="flex gap-3 items-center">
+                <HoverCard>
+                  <HoverCardTrigger>
+                    <Link
+                      href="/cart"
+                      className={cn(
+                        buttonVariants({ variant: "ghost", size: "sm" }),
+                        "px-4 cursor-pointer"
+                      )}
+                    >
+                      <Icons.cart />
+                    </Link>
+                  </HoverCardTrigger>
+                  <HoverCardContent>
+                    The React Framework – created and maintained by @vercel.
+                  </HoverCardContent>
+                </HoverCard>
                 <Link
                   href="/login"
                   className={cn(
@@ -39,7 +61,7 @@ export default function RootLayout({
               </nav>
             </div>
           </header>
-          <main className="flex-1">{children}</main>
+          <main className="flex-1 container">{children}</main>
           <SiteFooter />
         </div>
       </body>

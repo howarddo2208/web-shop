@@ -10,19 +10,18 @@ import {
 } from "drizzle-orm/mysql-core";
 import { mysqlTable } from "drizzle-orm/mysql-core";
 
-export const UsersTable = mysqlTable(
-  "users",
-  {
-    id: serial("id").primaryKey(),
-    name: varchar("name", { length: 50 }).notNull(),
-    email: text("email").notNull(),
-    avatar: text("avatar"),
-    role: mysqlEnum("role", ["ADMIN", "USER"]).notNull().default("USER"),
-  },
-  (users) => ({
-    emailIndex: uniqueIndex("email_idx").on(users.email),
-  })
-);
+const PRODUCT_PLACEHOLDER_IMG =
+  "https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-image_large.png?format=webp&v=1530129081";
+const USER_AVATAR_PLACEHOLDER_IMG =
+  "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541";
+
+export const UsersTable = mysqlTable("users", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 50 }).notNull(),
+  email: text("email").notNull(),
+  avatar: text("avatar").default(USER_AVATAR_PLACEHOLDER_IMG),
+  role: mysqlEnum("role", ["ADMIN", "USER"]).notNull().default("USER"),
+});
 
 export const UsersRelations = relations(UsersTable, ({ one, many }) => ({
   orders: many(OrdersTable),
@@ -37,6 +36,7 @@ export const ProductsTable = mysqlTable(
     description: text("description"),
     defaultPrice: real("default_price").notNull(),
     currentPrice: real("current_price").notNull(),
+    image: text("image").notNull().default(PRODUCT_PLACEHOLDER_IMG),
   },
   (products) => ({
     nameIndex: uniqueIndex("name_idx").on(products.name),

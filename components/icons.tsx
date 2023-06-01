@@ -22,6 +22,7 @@ import {
   Trash,
   Twitter,
   User,
+  ShoppingCart,
   X,
   type Icon as LucideIcon,
 } from "lucide-react"
@@ -50,6 +51,7 @@ export const Icons = {
   sun: SunMedium,
   moon: Moon,
   laptop: Laptop,
+  cart: ShoppingCart,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"
