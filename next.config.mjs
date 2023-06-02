@@ -9,6 +9,7 @@ const nextConfig = {
   images: { domains: ['images.unsplash.com'] },
   experimental: {
     appDir: true,
+    serverActions: true,
   },
 }
 
