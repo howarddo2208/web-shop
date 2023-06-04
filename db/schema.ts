@@ -25,7 +25,10 @@ export const UsersTable = mysqlTable("users", {
 
 export const UsersRelations = relations(UsersTable, ({ one, many }) => ({
   orders: many(OrdersTable),
-  cartItems: many(CartItemsTable),
+  cart: one(CartsTable, {
+    fields: [UsersTable.id],
+    references: [CartsTable.userId],
+  }),
 }));
 
 export const ProductsTable = mysqlTable(
@@ -37,6 +40,7 @@ export const ProductsTable = mysqlTable(
     defaultPrice: real("default_price").notNull(),
     currentPrice: real("current_price").notNull(),
     image: text("image").notNull().default(PRODUCT_PLACEHOLDER_IMG),
+    stock: int("stock").notNull().default(0),
   },
   (products) => ({
     nameIndex: uniqueIndex("name_idx").on(products.name),
@@ -46,7 +50,6 @@ export const ProductsTable = mysqlTable(
 export const CartItemsTable = mysqlTable("cart_items", {
   id: serial("id").primaryKey(),
   productId: int("product_id"),
-  userId: int("user_id"),
   quantity: int("quantity").notNull(),
 });
 
@@ -55,10 +58,23 @@ export const CartItemsRelations = relations(CartItemsTable, ({ one }) => ({
     fields: [CartItemsTable.productId],
     references: [ProductsTable.id],
   }),
+  cart: one(CartsTable, {
+    fields: [CartItemsTable.id],
+    references: [CartsTable.id],
+  }),
+}));
+
+export const CartsTable = mysqlTable("carts", {
+  id: serial("id").primaryKey(),
+  userId: int("user_id"),
+  });
+
+export const CartsRelations = relations(CartsTable, ({ one, many }) => ({
   user: one(UsersTable, {
-    fields: [CartItemsTable.userId],
+    fields: [CartsTable.userId],
     references: [UsersTable.id],
   }),
+  cartItems: many(CartItemsTable),
 }));
 
 export const OrdersTable = mysqlTable("orders", {
@@ -96,6 +112,7 @@ export const OrderItemsRelations = relations(OrderItemsTable, ({ one }) => ({
 // DB types
 export type User = InferModel<typeof UsersTable, "select">;
 export type NewUser = InferModel<typeof UsersTable, "insert">;
-
+export type Cart = InferModel<typeof CartsTable, "select">;
+export type NewCart = InferModel<typeof CartsTable, "insert">;
 export type Product = InferModel<typeof ProductsTable, "select">;
 export type NewProduct = InferModel<typeof ProductsTable, "insert">;

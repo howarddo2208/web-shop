@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "./ui/button";
 import Image from "next/image";
 import React from "react";
@@ -19,6 +20,26 @@ export const ProductCard = ({
   className,
   ...props
 }: ProductProps) => {
+  const addToCart = (product: Product) => {
+    // get cart from local storage
+    const cart = JSON.parse(
+      localStorage.getItem("cart") || '{"items":[],"total":0}'
+    );
+
+    const existingProduct = cart.items.find(
+      (p: Product) => p.id === product.id
+    );
+    if (existingProduct) {
+      existingProduct.quantity += 1;
+    }
+    else {
+      cart.items.push({ ...product, quantity: 1 });
+    }
+    cart.total += product.currentPrice;
+    localStorage.setItem("cart", JSON.stringify(cart));
+    window.dispatchEvent(new Event("cart-updated"));
+  };
+
   return (
     <div className={cn("space-y-3", className)} {...props}>
       <div className="overflow-hidden rounded-md">
@@ -39,7 +60,9 @@ export const ProductCard = ({
           <span className="line-through">{product.defaultPrice}$</span>{" "}
           {product.currentPrice}$
         </p>
-        <Button variant='default'>Add to cart</Button>
+        <Button variant="default" onClick={() => addToCart(product)}>
+          Add to cart
+        </Button>
       </div>
     </div>
   );

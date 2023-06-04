@@ -6,9 +6,8 @@ import { ProductsTable } from "@/db/schema";
 import { ProductList } from "@/components/product-list";
 
 export default async function Home() {
-  // seed()
+  seed()
   const products = await db.select().from(ProductsTable).execute();
-  console.log("products", products);
   return (
     <>
       <div className="mt-4">
