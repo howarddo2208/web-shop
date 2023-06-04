@@ -12,15 +12,15 @@ import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "./ui/button";
+import { getCart } from "@/lib/cart";
 
 export const CartLink = () => {
   const [cart, setCart] = React.useState(
-    localStorage.getItem("cart") || '{"items":[],"total":0}'
+    getCart()
   );
   useEffect(() => {
     window.addEventListener("cart-updated", () => {
-      console.log("cart updated");
-      setCart(localStorage.getItem("cart") || '{"items":[],"total":0}');
+      setCart(getCart());
     });
   }, []);
   // if there is no cart in local storage, create an empty one with items and total property
@@ -36,13 +36,13 @@ export const CartLink = () => {
         <Icons.cart />
         {/* display number of items  */}
         <span className="absolute -top-1 right-0 text-xs text-white bg-primary rounded-full w-4 h-4 flex items-center justify-center">
-          {JSON.parse(cart).items.length}
+          {cart.items.length}
         </span>
       </HoverCardTrigger>
       <HoverCardContent>
         {/* list of items in cart  */}
         <div className="space-y-2">
-          {JSON.parse(cart).items.map((item: any) => (
+          {cart.items.map((item: any) => (
             <div key={item.id} className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
                 <Image
@@ -74,7 +74,7 @@ export const CartLink = () => {
         <div className="flex items-center justify-between mt-4">
           <span className="text-sm font-bold leading-none">Total</span>
           <span className="text-sm font-bold leading-none">
-            {JSON.parse(cart).total}$
+            {cart.subTotal}$
           </span>
         </div>
         {/* checkout button  */}

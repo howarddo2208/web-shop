@@ -7,6 +7,7 @@ import { homeConfig } from "@/config/home";
 import { cn } from "@/lib/utils";
 import { SiteFooter } from "@/components/site-footer";
 import { CartLink } from "@/components/CartLink";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -43,6 +44,7 @@ export default function RootLayout({
           </header>
           <main className="flex-1 container">{children}</main>
           <SiteFooter />
+          <Toaster />
         </div>
       </body>
     </html>
