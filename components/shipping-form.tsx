@@ -15,10 +15,10 @@ import {
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { useForm } from "react-hook-form";
-import { getCart } from "@/lib/cart";
 import { useToast } from "./ui/use-toast";
 import { ToastAction } from "./ui/toast";
-import { CreateOrderRequest } from "@/types";
+import { CartContextType, CreateOrderRequest } from "@/types";
+import { useCartContext } from "@/client/cart/cart-context";
 
 export const shippingFormSchema = z.object({
   name: z.string().nonempty({
@@ -40,6 +40,7 @@ interface ShippingInfoFormProps {
 }
 
 export function ShippingInfoForm({ checkout }: ShippingInfoFormProps) {
+  const cart = useCartContext() as CartContextType
   const form = useForm<z.infer<typeof shippingFormSchema>>({
     resolver: zodResolver(shippingFormSchema),
     defaultValues: {
@@ -53,8 +54,7 @@ export function ShippingInfoForm({ checkout }: ShippingInfoFormProps) {
   const { toast } = useToast();
 
   function onSubmit(values: z.infer<typeof shippingFormSchema>) {
-    const cart = getCart()
-    if (cart.items.length < 1) {
+    if (cart.products.length < 1) {
       return toast({
         variant: "destructive",
         title: "Uh oh! Your cart is empty",

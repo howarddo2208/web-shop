@@ -6,8 +6,9 @@ import { MainNav } from "@/components/main-nav";
 import { homeConfig } from "@/config/home";
 import { cn } from "@/lib/utils";
 import { SiteFooter } from "@/components/site-footer";
-import { CartLink } from "@/components/CartLink";
+import { CartLink } from "@/components/cart-link";
 import { Toaster } from "@/components/ui/toaster";
+import { CartProvider } from "@/client/cart/cart-context";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,30 +24,32 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <div className="flex min-h-screen flex-col">
-          <header className="container z-40 bg-background">
-            <div className="flex h-20 items-center justify-between py-6">
-              <MainNav items={homeConfig.mainNav} />
-              <nav className="flex gap-3 items-center">
-                <CartLink/>
-                <Link
-                  href="/login"
-                  className={cn(
-                    buttonVariants({ variant: "secondary", size: "sm" }),
-                    "px-4"
-                  )}
-                >
-                  Login
-                </Link>
-              </nav>
-            </div>
-          </header>
-          <main className="flex-1 container">{children}</main>
-          <SiteFooter />
-          <Toaster />
-        </div>
-      </body>
+      <CartProvider>
+        <body className={inter.className}>
+          <div className="flex min-h-screen flex-col">
+            <header className="container z-40 bg-background">
+              <div className="flex h-20 items-center justify-between py-6">
+                <MainNav items={homeConfig.mainNav} />
+                <nav className="flex gap-3 items-center">
+                  <CartLink />
+                  <Link
+                    href="/login"
+                    className={cn(
+                      buttonVariants({ variant: "secondary", size: "sm" }),
+                      "px-4"
+                    )}
+                  >
+                    Login
+                  </Link>
+                </nav>
+              </div>
+            </header>
+            <main className="flex-1 container">{children}</main>
+            <SiteFooter />
+            <Toaster />
+          </div>
+        </body>
+      </CartProvider>
     </html>
   );
 }

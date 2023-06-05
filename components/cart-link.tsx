@@ -6,26 +6,16 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import { Icons } from "@/components/icons";
-
-import React, { useEffect } from "react";
+import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "./ui/button";
-import { getCart } from "@/lib/cart";
+import { useCartContext } from "@/client/cart/cart-context";
+import { CartContextType } from "@/types";
 
 export const CartLink = () => {
-  const [cart, setCart] = React.useState(
-    getCart()
-  );
-  useEffect(() => {
-    const reloadCart = () => {
-      setCart(getCart())
-    }
-    window.addEventListener("cart-updated", reloadCart);
-    return () => window.removeEventListener("cart-updated", reloadCart);
-  }, []);
-  // if there is no cart in local storage, create an empty one with items and total property
+  const cart = useCartContext() as CartContextType
   return (
     <HoverCard>
       <HoverCardTrigger
@@ -38,13 +28,13 @@ export const CartLink = () => {
         <Icons.cart />
         {/* display number of items  */}
         <span className="absolute -top-1 right-0 text-xs text-white bg-primary rounded-full w-4 h-4 flex items-center justify-center">
-          {cart.items.length}
+          {cart.itemsNum}
         </span>
       </HoverCardTrigger>
       <HoverCardContent>
         {/* list of items in cart  */}
         <div className="space-y-2">
-          {cart.items.map((item: any) => (
+          {cart.products.map((item: any) => (
             <div key={item.id} className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
                 <Image
@@ -91,5 +81,5 @@ export const CartLink = () => {
         </Link>
       </HoverCardContent>
     </HoverCard>
-  );
+  )
 };

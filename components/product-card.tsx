@@ -4,8 +4,9 @@ import Image from "next/image";
 import React from "react";
 import { cn } from "@/lib/utils";
 import { Product } from "@/db/schema";
-import { addCart } from "@/lib/cart";
 import { useToast } from "./ui/use-toast";
+import { useCartContext } from "@/client/cart/cart-context";
+import { CartContextType } from "@/types";
 
 interface ProductProps extends React.HTMLAttributes<HTMLDivElement> {
   product: Product;
@@ -22,10 +23,11 @@ export const ProductCard = ({
   className,
   ...props
 }: ProductProps) => {
-  
+  const cart = useCartContext() as CartContextType;
+
   const { toast } = useToast()
   const handleAddToCart = () => {
-    addCart(product);
+    cart.addToCart(product);
     toast({
       title: "Added to cart",
       description: `${product.name} has been added to your cart.`,

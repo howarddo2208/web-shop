@@ -51,7 +51,7 @@ export const ProductsTable = mysqlTable(
 export const CartsTable = mysqlTable("carts", {
   id: serial("id").primaryKey(),
   userId: int("user_id"),
-  data: json("data").notNull().default({ items: [], subTotal: 0 }),
+  items: json("items").notNull().default([]),
 });
 
 export const CartsRelations = relations(CartsTable, ({ one }) => ({
