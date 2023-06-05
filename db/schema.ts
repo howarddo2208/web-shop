@@ -1,6 +1,7 @@
 import { InferModel, relations } from "drizzle-orm";
 import {
   int,
+  json,
   mysqlEnum,
   real,
   serial,
@@ -47,39 +48,26 @@ export const ProductsTable = mysqlTable(
   })
 );
 
-export const CartItemsTable = mysqlTable("cart_items", {
-  id: serial("id").primaryKey(),
-  productId: int("product_id"),
-  quantity: int("quantity").notNull(),
-});
-
-export const CartItemsRelations = relations(CartItemsTable, ({ one }) => ({
-  product: one(ProductsTable, {
-    fields: [CartItemsTable.productId],
-    references: [ProductsTable.id],
-  }),
-  cart: one(CartsTable, {
-    fields: [CartItemsTable.id],
-    references: [CartsTable.id],
-  }),
-}));
-
 export const CartsTable = mysqlTable("carts", {
   id: serial("id").primaryKey(),
   userId: int("user_id"),
-  });
+  data: json("data").notNull().default({ items: [], subTotal: 0 }),
+});
 
-export const CartsRelations = relations(CartsTable, ({ one, many }) => ({
+export const CartsRelations = relations(CartsTable, ({ one }) => ({
   user: one(UsersTable, {
     fields: [CartsTable.userId],
     references: [UsersTable.id],
   }),
-  cartItems: many(CartItemsTable),
 }));
 
 export const OrdersTable = mysqlTable("orders", {
   id: serial("id").primaryKey(),
   userId: int("user_id"),
+  name: varchar("name", { length: 50 }).notNull(),
+  email: text("email").notNull(),
+  address: text("address").notNull(),
+  // paymentId: text("payment_id").notNull(),
   total: real("total").notNull().default(0),
 });
 

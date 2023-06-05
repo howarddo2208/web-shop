@@ -18,8 +18,9 @@ import { useForm } from "react-hook-form";
 import { getCart } from "@/lib/cart";
 import { useToast } from "./ui/use-toast";
 import { ToastAction } from "./ui/toast";
+import { CreateOrderRequest } from "@/types";
 
-const formSchema = z.object({
+export const shippingFormSchema = z.object({
   name: z.string().nonempty({
     message: "Please enter your name.",
   }),
@@ -34,9 +35,13 @@ const formSchema = z.object({
   }),
 });
 
-export function ShippingInfoForm({ checkout }: { checkout: (shippingInfo: any, cart: any) => void }) {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+interface ShippingInfoFormProps {
+  checkout: (orderInfo: CreateOrderRequest) => Promise<void>;
+}
+
+export function ShippingInfoForm({ checkout }: ShippingInfoFormProps) {
+  const form = useForm<z.infer<typeof shippingFormSchema>>({
+    resolver: zodResolver(shippingFormSchema),
     defaultValues: {
       name: "",
       phoneNumber: "",
@@ -47,7 +52,7 @@ export function ShippingInfoForm({ checkout }: { checkout: (shippingInfo: any, c
 
   const { toast } = useToast();
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values: z.infer<typeof shippingFormSchema>) {
     const cart = getCart()
     if (cart.items.length < 1) {
       return toast({
@@ -56,8 +61,10 @@ export function ShippingInfoForm({ checkout }: { checkout: (shippingInfo: any, c
         description: "Add some items to your cart before checking out.",
       })
     }
-
-    checkout(values, cart)
+    checkout({
+      shippingInfo: values,
+      cart
+    })
   }
 
   return (

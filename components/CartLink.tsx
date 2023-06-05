@@ -19,9 +19,11 @@ export const CartLink = () => {
     getCart()
   );
   useEffect(() => {
-    window.addEventListener("cart-updated", () => {
-      setCart(getCart());
-    });
+    const reloadCart = () => {
+      setCart(getCart())
+    }
+    window.addEventListener("cart-updated", reloadCart);
+    return () => window.removeEventListener("cart-updated", reloadCart);
   }, []);
   // if there is no cart in local storage, create an empty one with items and total property
   return (

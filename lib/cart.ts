@@ -54,3 +54,8 @@ export const deleteCartItem = (item: CartItem) => {
   localStorage.setItem("cart", JSON.stringify(newCart));
   window.dispatchEvent(new Event("cart-updated"));
 }
+
+export const clearCart = () => {
+  localStorage.removeItem("cart");
+  window.dispatchEvent(new Event("cart-updated"));
+}

@@ -26,3 +26,8 @@ export type HomeConfig = {
 
 export type CartItem = Product & { quantity: number };
 export type Cart = {items: CartItem[], subTotal: number };
+
+export type CreateOrderRequest = {
+  shippingInfo: z.infer<typeof shippingInfoSchema>;
+  cart: Cart
+}

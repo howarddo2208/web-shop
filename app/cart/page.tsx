@@ -1,3 +1,5 @@
+import { CartInfo } from "@/components/cart-info"
+
 export default function CartPage() {
-  return <h1>cart</h1>
+  return (<CartInfo />)
 }

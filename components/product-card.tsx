@@ -4,7 +4,8 @@ import Image from "next/image";
 import React from "react";
 import { cn } from "@/lib/utils";
 import { Product } from "@/db/schema";
-import { addCart, getCart } from "@/lib/cart";
+import { addCart } from "@/lib/cart";
+import { useToast } from "./ui/use-toast";
 
 interface ProductProps extends React.HTMLAttributes<HTMLDivElement> {
   product: Product;
@@ -21,6 +22,16 @@ export const ProductCard = ({
   className,
   ...props
 }: ProductProps) => {
+  
+  const { toast } = useToast()
+  const handleAddToCart = () => {
+    addCart(product);
+    toast({
+      title: "Added to cart",
+      description: `${product.name} has been added to your cart.`,
+    })
+  }
+
   return (
     <div className={cn("space-y-3", className)} {...props}>
       <div className="overflow-hidden rounded-md">
@@ -41,7 +52,7 @@ export const ProductCard = ({
           <span className="line-through">{product.defaultPrice}$</span>{" "}
           {product.currentPrice}$
         </p>
-        <Button variant="default" onClick={() => addCart(product)}>
+        <Button variant="default" onClick={handleAddToCart}>
           Add to cart
         </Button>
       </div>
