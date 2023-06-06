@@ -1,6 +1,6 @@
-"use client"
-import { CartInfo } from "@/components/cart-info"
+'use client'
+import { CartInfo } from '@/components/cart-info'
 
 export default function CartPage() {
-  return (<CartInfo />)
+  return <CartInfo />
 }

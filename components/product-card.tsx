@@ -1,18 +1,18 @@
-"use client";
-import { Button } from "./ui/button";
-import Image from "next/image";
-import React from "react";
-import { cn } from "@/lib/utils";
-import { Product } from "@/db/schema";
-import { useToast } from "./ui/use-toast";
-import { useCartContext } from "@/client/cart/cart-context";
-import { CartContextType } from "@/types";
+'use client'
+import { Button } from './ui/button'
+import Image from 'next/image'
+import React from 'react'
+import { cn } from '@/lib/utils'
+import { Product } from '@/db/schema'
+import { useToast } from './ui/use-toast'
+import { useCartContext } from '@/client/cart/cart-context'
+import { CartContextType } from '@/types'
 
 interface ProductProps extends React.HTMLAttributes<HTMLDivElement> {
-  product: Product;
-  aspectRatio?: "portrait" | "square";
-  width?: number;
-  height?: number;
+  product: Product
+  aspectRatio?: 'portrait' | 'square'
+  width?: number
+  height?: number
 }
 
 export const ProductCard = ({
@@ -23,19 +23,19 @@ export const ProductCard = ({
   className,
   ...props
 }: ProductProps) => {
-  const cart = useCartContext() as CartContextType;
+  const cart = useCartContext() as CartContextType
 
   const { toast } = useToast()
   const handleAddToCart = () => {
-    cart.addToCart(product);
+    cart.addToCart(product)
     toast({
-      title: "Added to cart",
+      title: 'Added to cart',
       description: `${product.name} has been added to your cart.`,
     })
   }
 
   return (
-    <div className={cn("space-y-3", className)} {...props}>
+    <div className={cn('space-y-3', className)} {...props}>
       <div className="overflow-hidden rounded-md">
         <Image
           src={product.image}
@@ -43,15 +43,15 @@ export const ProductCard = ({
           width={width}
           height={height}
           className={cn(
-            "h-auto w-auto object-cover transition-all hover:scale-105",
-            aspectRatio === "portrait" ? "aspect-[3/4]" : "aspect-square"
+            'h-auto w-auto object-cover transition-all hover:scale-105',
+            aspectRatio === 'portrait' ? 'aspect-[3/4]' : 'aspect-square'
           )}
         />
       </div>
       <div className="space-y-1 text-sm text-center">
         <h3 className="text-2xl font-bold leading-none">{product.name}</h3>
         <p className="text-xs text-muted-foreground">
-          <span className="line-through">{product.defaultPrice}$</span>{" "}
+          <span className="line-through">{product.defaultPrice}$</span>{' '}
           {product.currentPrice}$
         </p>
         <Button variant="default" onClick={handleAddToCart}>
@@ -59,5 +59,5 @@ export const ProductCard = ({
         </Button>
       </div>
     </div>
-  );
-};
+  )
+}

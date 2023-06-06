@@ -1,8 +1,8 @@
-"use client";
+'use client'
 
-import Link from "next/link";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
+import Link from 'next/link'
+import { zodResolver } from '@hookform/resolvers/zod'
+import * as z from 'zod'
 import {
   Form,
   FormControl,
@@ -11,32 +11,32 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "./ui/form";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { useForm } from "react-hook-form";
-import { useToast } from "./ui/use-toast";
-import { ToastAction } from "./ui/toast";
-import { CartContextType, CreateOrderRequest } from "@/types";
-import { useCartContext } from "@/client/cart/cart-context";
+} from './ui/form'
+import { Button } from './ui/button'
+import { Input } from './ui/input'
+import { useForm } from 'react-hook-form'
+import { useToast } from './ui/use-toast'
+import { ToastAction } from './ui/toast'
+import { CartContextType, CreateOrderRequest } from '@/types'
+import { useCartContext } from '@/client/cart/cart-context'
 
 export const shippingFormSchema = z.object({
   name: z.string().nonempty({
-    message: "Please enter your name.",
+    message: 'Please enter your name.',
   }),
   phoneNumber: z.string().nonempty({
-    message: "Please enter your phone number.",
+    message: 'Please enter your phone number.',
   }),
   email: z.string().email({
-    message: "Please enter a valid email address.",
+    message: 'Please enter a valid email address.',
   }),
   address: z.string().nonempty({
-    message: "Please enter your address.",
+    message: 'Please enter your address.',
   }),
-});
+})
 
 interface ShippingInfoFormProps {
-  checkout: (orderInfo: CreateOrderRequest) => Promise<void>;
+  checkout: (orderInfo: CreateOrderRequest) => Promise<void>
 }
 
 export function ShippingInfoForm({ checkout }: ShippingInfoFormProps) {
@@ -44,26 +44,26 @@ export function ShippingInfoForm({ checkout }: ShippingInfoFormProps) {
   const form = useForm<z.infer<typeof shippingFormSchema>>({
     resolver: zodResolver(shippingFormSchema),
     defaultValues: {
-      name: "",
-      phoneNumber: "",
-      email: "",
-      address: "",
+      name: '',
+      phoneNumber: '',
+      email: '',
+      address: '',
     },
-  });
+  })
 
-  const { toast } = useToast();
+  const { toast } = useToast()
 
   function onSubmit(values: z.infer<typeof shippingFormSchema>) {
     if (cart.products.length < 1) {
       return toast({
-        variant: "destructive",
-        title: "Uh oh! Your cart is empty",
-        description: "Add some items to your cart before checking out.",
+        variant: 'destructive',
+        title: 'Uh oh! Your cart is empty',
+        description: 'Add some items to your cart before checking out.',
       })
     }
     checkout({
       shippingInfo: values,
-      cart
+      cart,
     })
   }
 
@@ -133,8 +133,10 @@ export function ShippingInfoForm({ checkout }: ShippingInfoFormProps) {
             />
           </div>
         </div>
-        <Button type="submit" className="w-full">Checkout</Button>
+        <Button type="submit" className="w-full">
+          Checkout
+        </Button>
       </form>
     </Form>
-  );
+  )
 }

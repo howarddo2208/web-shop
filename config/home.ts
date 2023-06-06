@@ -1,18 +1,18 @@
-import { HomeConfig } from "@/types"
+import { HomeConfig } from '@/types'
 
 export const homeConfig: HomeConfig = {
   mainNav: [
     {
-      title: "Categories",
-      href: "/Categories",
+      title: 'Categories',
+      href: '/Categories',
     },
     {
-      title: "Blog",
-      href: "/blog",
+      title: 'Blog',
+      href: '/blog',
     },
     {
-      title: "Documentation",
-      href: "/docs",
+      title: 'Documentation',
+      href: '/docs',
     },
   ],
 }

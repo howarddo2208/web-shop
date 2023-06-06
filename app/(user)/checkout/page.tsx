@@ -1,7 +1,10 @@
-import { CartInfo } from "@/components/cart-info";
-import { ShippingInfoForm, shippingFormSchema } from "@/components/shipping-form";
-import { Cart, CreateOrderRequest } from "@/types";
-import { z } from "zod";
+import { CartInfo } from '@/components/cart-info'
+import {
+  ShippingInfoForm,
+  shippingFormSchema,
+} from '@/components/shipping-form'
+import { Cart, CreateOrderRequest } from '@/types'
+import { z } from 'zod'
 
 const createOrderRequestValidator = z.object({
   shippingInfo: shippingFormSchema,
@@ -9,9 +12,8 @@ const createOrderRequestValidator = z.object({
 
 // build a checkout form for me with user info on the left and order info, items on the right
 export default function CheckoutPage() {
-
   const checkOut = async (orderInfo: CreateOrderRequest) => {
-    "use server"
+    'use server'
     // clear the cart
     // redirect to order confirmation page
     window.location.href = `/order/${order.id}`
@@ -28,5 +30,5 @@ export default function CheckoutPage() {
         <CartInfo />
       </div>
     </div>
-  );
+  )
 }

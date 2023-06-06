@@ -1,26 +1,26 @@
-import "./globals.css";
-import { Inter } from "next/font/google";
-import Link from "next/link";
-import { buttonVariants } from "@/components/ui/button";
-import { MainNav } from "@/components/main-nav";
-import { homeConfig } from "@/config/home";
-import { cn } from "@/lib/utils";
-import { SiteFooter } from "@/components/site-footer";
-import { CartLink } from "@/components/cart-link";
-import { Toaster } from "@/components/ui/toaster";
-import { CartProvider } from "@/client/cart/cart-context";
+import './globals.css'
+import { Inter } from 'next/font/google'
+import Link from 'next/link'
+import { buttonVariants } from '@/components/ui/button'
+import { MainNav } from '@/components/main-nav'
+import { homeConfig } from '@/config/home'
+import { cn } from '@/lib/utils'
+import { SiteFooter } from '@/components/site-footer'
+import { CartLink } from '@/components/cart-link'
+import { Toaster } from '@/components/ui/toaster'
+import { CartProvider } from '@/client/cart/cart-context'
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: "Welcome to web shop",
-  description: "My project with new nextjs",
-};
+  title: 'Welcome to web shop',
+  description: 'My project with new nextjs',
+}
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
     <html lang="en">
@@ -35,8 +35,8 @@ export default function RootLayout({
                   <Link
                     href="/login"
                     className={cn(
-                      buttonVariants({ variant: "secondary", size: "sm" }),
-                      "px-4"
+                      buttonVariants({ variant: 'secondary', size: 'sm' }),
+                      'px-4'
                     )}
                   >
                     Login
@@ -51,5 +51,5 @@ export default function RootLayout({
         </body>
       </CartProvider>
     </html>
-  );
+  )
 }

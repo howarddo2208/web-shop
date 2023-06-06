@@ -1,18 +1,18 @@
-"use client";
+'use client'
 
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
-} from "@/components/ui/hover-card";
-import { Icons } from "@/components/icons";
-import React from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { cn } from "@/lib/utils";
-import { buttonVariants } from "./ui/button";
-import { useCartContext } from "@/client/cart/cart-context";
-import { CartContextType } from "@/types";
+} from '@/components/ui/hover-card'
+import { Icons } from '@/components/icons'
+import React from 'react'
+import Link from 'next/link'
+import Image from 'next/image'
+import { cn } from '@/lib/utils'
+import { buttonVariants } from './ui/button'
+import { useCartContext } from '@/client/cart/cart-context'
+import { CartContextType } from '@/types'
 
 export const CartLink = () => {
   const cart = useCartContext() as CartContextType
@@ -21,8 +21,8 @@ export const CartLink = () => {
       <HoverCardTrigger
         href="/cart"
         className={cn(
-          buttonVariants({ variant: "ghost", size: "sm" }),
-          "cursor-pointer relative"
+          buttonVariants({ variant: 'ghost', size: 'sm' }),
+          'cursor-pointer relative'
         )}
       >
         <Icons.cart />
@@ -73,8 +73,8 @@ export const CartLink = () => {
         <Link
           href="/checkout"
           className={cn(
-            buttonVariants({ variant: "default", size: "sm" }),
-            "mt-2 flex"
+            buttonVariants({ variant: 'default', size: 'sm' }),
+            'mt-2 flex'
           )}
         >
           Checkout
@@ -82,4 +82,4 @@ export const CartLink = () => {
       </HoverCardContent>
     </HoverCard>
   )
-};
+}

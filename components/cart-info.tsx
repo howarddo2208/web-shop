@@ -1,9 +1,9 @@
-"use client"
-import Image from "next/image"
+'use client'
+import Image from 'next/image'
 import Link from 'next/link'
-import { useCartContext } from "@/client/cart/cart-context"
-import { Button } from "./ui/button"
-import { CartContextType } from "@/types"
+import { useCartContext } from '@/client/cart/cart-context'
+import { Button } from './ui/button'
+import { CartContextType } from '@/types'
 
 export const CartInfo = () => {
   const cart = useCartContext() as CartContextType
@@ -40,7 +40,9 @@ export const CartInfo = () => {
                 >
                   -
                 </button>
-                <span className="text-xl w-14 text-center">{cartProduct.quantity}</span>
+                <span className="text-xl w-14 text-center">
+                  {cartProduct.quantity}
+                </span>
                 <button
                   className="text-2xl leading-none"
                   onClick={() => cart.setIncrease(cartProduct.id)}
@@ -54,7 +56,12 @@ export const CartInfo = () => {
               </span>
 
               {/* remove item */}
-              <Button variant='destructive' onClick={() => cart.removeItem(cartProduct.id)}>Remove item </Button>
+              <Button
+                variant="destructive"
+                onClick={() => cart.removeItem(cartProduct.id)}
+              >
+                Remove item{' '}
+              </Button>
             </div>
           ))}
         </div>
