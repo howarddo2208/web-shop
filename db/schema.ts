@@ -72,13 +72,14 @@ export const OrdersTable = mysqlTable('orders', {
     'PENDING',
     'PAID',
     'SHIPPING',
-    'COMPLETED',
+    'SHIPPED',
     'CANCELLED',
     'REFUNDING',
     'REFUNDED',
   ])
     .notNull()
     .default('PENDING'),
+  paymentId: text('payment_id'),
   // paymentId: text("payment_id").notNull(),
   total: real('total').notNull().default(0),
 })
