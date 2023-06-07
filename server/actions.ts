@@ -7,11 +7,15 @@ import {
   OrderItemsTable,
   OrdersTable,
 } from '@/db/schema'
+import { stripe } from '@/lib/stripe'
+import { absoluteUrl } from '@/lib/utils'
 import { Cart, CreateOrderRequest } from '@/types'
+
+const redirectPaymentURL = absoluteUrl('/')
 
 const createOrder = async (orderInfo: CreateOrderRequest) => {
   const { shippingInfo, cart } = orderInfo
-  db.transaction(async (tx) => {
+  const orderId = await db.transaction(async (tx) => {
     const newOrder: NewOrder = {
       ...shippingInfo,
       status: 'PENDING',
@@ -29,10 +33,29 @@ const createOrder = async (orderInfo: CreateOrderRequest) => {
 
     // TODO: reduce product stock
 
-    // TODO: create payment
-
-    // TODO: navigate to payment page
+    return order.insertId
   })
+
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ['card'],
+    line_items: [
+      {
+        price_data: {
+          currency: 'usd',
+          unit_amount: 100,
+          product_data: {
+            name: 'Stubborn Attachments',
+            images: ['https://i.imgur.com/EHyR2nP.png'],
+          },
+        },
+        quantity: 1,
+      },
+    ],
+    mode: 'payment',
+    success_url: `${redirectPaymentURL}/payment?orderId=${orderId}&success=true`,
+    cancel_url: `${redirectPaymentURL}/payment?orderId=${orderId}&cancelled=true`,
+  })
+  return session
 }
 
 export { createOrder }

@@ -6,10 +6,11 @@ const server = z.object({
   DB_USERNAME: z.string().min(1),
   DB_PASSWORD: z.string().min(1),
   DB_URL: z.string().min(1),
+  STRIPE_SECRET_KEY: z.string().min(1),
 })
 
 const client = z.object({
-  // NEXT_PUBLIC_APP_URL: z.string().min(1),
+  NEXT_PUBLIC_APP_URL: z.string().min(1),
 })
 
 /**
@@ -20,12 +21,13 @@ const client = z.object({
  */
 const processEnv = {
   NODE_ENV: process.env.NODE_ENV,
-  // NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
+  NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
   CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY,
   DB_HOST: process.env.DB_HOST,
   DB_USERNAME: process.env.DB_USERNAME,
   DB_PASSWORD: process.env.DB_PASSWORD,
   DB_URL: process.env.DB_URL,
+  STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
 }
 
 // Don't touch the part below

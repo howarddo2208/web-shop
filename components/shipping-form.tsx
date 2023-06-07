@@ -60,8 +60,8 @@ export function ShippingInfoForm() {
         description: 'Add some items to your cart before checking out.',
       })
     }
-    startTransition(() =>
-      createOrder({
+    startTransition(async () => {
+      const checkoutSession = await createOrder({
         shippingInfo: values,
         cart: {
           products: cartContext.products,
@@ -69,7 +69,11 @@ export function ShippingInfoForm() {
           subTotal: cartContext.subTotal,
         },
       })
-    )
+
+      if (checkoutSession.url) {
+        window.location.href = checkoutSession.url
+      }
+    })
   }
 
   return (
