@@ -65,8 +65,20 @@ export const OrdersTable = mysqlTable('orders', {
   id: serial('id').primaryKey(),
   userId: int('user_id'),
   name: varchar('name', { length: 50 }).notNull(),
+  phoneNumber: varchar('phone_number', { length: 20 }).notNull(),
   email: text('email').notNull(),
   address: text('address').notNull(),
+  status: mysqlEnum('status', [
+    'PENDING',
+    'PAID',
+    'SHIPPING',
+    'COMPLETED',
+    'CANCELLED',
+    'REFUNDING',
+    'REFUNDED',
+  ])
+    .notNull()
+    .default('PENDING'),
   // paymentId: text("payment_id").notNull(),
   total: real('total').notNull().default(0),
 })
@@ -104,3 +116,7 @@ export type Cart = InferModel<typeof CartsTable, 'select'>
 export type NewCart = InferModel<typeof CartsTable, 'insert'>
 export type Product = InferModel<typeof ProductsTable, 'select'>
 export type NewProduct = InferModel<typeof ProductsTable, 'insert'>
+export type NewOrder = InferModel<typeof OrdersTable, 'insert'>
+export type Order = InferModel<typeof OrdersTable, 'insert'>
+export type OrderItem = InferModel<typeof OrderItemsTable, 'select'>
+export type NewOrderItem = InferModel<typeof OrderItemsTable, 'insert'>

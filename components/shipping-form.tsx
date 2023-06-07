@@ -19,6 +19,8 @@ import { useToast } from './ui/use-toast'
 import { ToastAction } from './ui/toast'
 import { CartContextType, CreateOrderRequest } from '@/types'
 import { useCartContext } from '@/client/cart/cart-context'
+import { createOrder } from '@/server/actions'
+import { useTransition } from 'react'
 
 export const shippingFormSchema = z.object({
   name: z.string().nonempty({
@@ -35,12 +37,9 @@ export const shippingFormSchema = z.object({
   }),
 })
 
-interface ShippingInfoFormProps {
-  checkout: (orderInfo: CreateOrderRequest) => Promise<void>
-}
-
-export function ShippingInfoForm({ checkout }: ShippingInfoFormProps) {
-  const cart = useCartContext() as CartContextType
+export function ShippingInfoForm() {
+  const cartContext = useCartContext() as CartContextType
+  const [isPending, startTransition] = useTransition()
   const form = useForm<z.infer<typeof shippingFormSchema>>({
     resolver: zodResolver(shippingFormSchema),
     defaultValues: {
@@ -54,17 +53,23 @@ export function ShippingInfoForm({ checkout }: ShippingInfoFormProps) {
   const { toast } = useToast()
 
   function onSubmit(values: z.infer<typeof shippingFormSchema>) {
-    if (cart.products.length < 1) {
+    if (cartContext.products.length < 1) {
       return toast({
         variant: 'destructive',
         title: 'Uh oh! Your cart is empty',
         description: 'Add some items to your cart before checking out.',
       })
     }
-    checkout({
-      shippingInfo: values,
-      cart,
-    })
+    startTransition(() =>
+      createOrder({
+        shippingInfo: values,
+        cart: {
+          products: cartContext.products,
+          itemsNum: cartContext.itemsNum,
+          subTotal: cartContext.subTotal,
+        },
+      })
+    )
   }
 
   return (
